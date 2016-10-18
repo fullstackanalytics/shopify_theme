@@ -29,7 +29,7 @@ module ShopifyTheme
     include Thor::Actions
 
     IGNORE = %w(config.yml)
-    DEFAULT_WHITELIST = %w(layout/ assets/ config/ snippets/ templates/ locales/)
+    DEFAULT_WHITELIST = %w(layout/ assets/ config/ snippets/ templates/ locales/ sections/)
     TIMEFORMAT = "%H:%M:%S"
 
     tasks.keys.abbrev.each do |shortcut, command|
@@ -169,9 +169,9 @@ module ShopifyTheme
       puts "Watching current folder: #{Dir.pwd}"
       watcher do |filename, event|
         filename = filename.gsub("#{Dir.pwd}/", '')
-        
+
         next unless local_assets_list.include?(filename)
-        
+
         action = if [:changed, :new].include?(event)
           :send_asset
         elsif event == :delete && !options['keep_files']
